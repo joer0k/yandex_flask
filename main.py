@@ -17,5 +17,24 @@ def profession(prof):
     return render_template('training.html', prof=prof)
 
 
+@app.route('/list_prof/<lst>')
+def list_prof(lst):
+    professions = [
+        "Веб-разработчик",
+        "Аналитик данных",
+        "Разработчик искусственного интеллекта",
+        "Автоматизатор тестирования",
+        "DevOps-инженер",
+        "Frontend-разработчик",
+        "Инженер данных",
+        "Инженер надежности сайта",
+        "Программист",
+        "Python-разработчик",
+        "Java-разработчик",
+        "Графический дизайнер"
+    ]
+    return render_template('list_prof.html', list=lst, professions=professions)
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
