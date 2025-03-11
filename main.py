@@ -5,6 +5,8 @@ from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 
+app.config['SECRET_KEY'] = 'joerok_secret_key'
+
 
 @app.route('/<title>')
 @app.route('/index/<title>')
@@ -52,5 +54,26 @@ def answer():
     return render_template('auto_answer.html', dict_answer=dict_answer)
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        return redirect('/success')
+    return render_template('login.html', title='Аварийный доступ', form=form)
+
+
+@app.route('/success')
+def success():
+    return render_template('success.html')
+
+
+class LoginForm(FlaskForm):
+    username = StringField('id астронавта ', validators=[DataRequired()])
+    password = PasswordField('Пароль астронавта ', validators=[DataRequired()])
+    username_k = StringField('id капитана', validators=[DataRequired()])
+    password_k = PasswordField('Пароль капитана', validators=[DataRequired()])
+    submit = SubmitField('Войти')
+
+
 if __name__ == '__main__':
-    app.run(port=8080, host='127.0.0.1')
+    app.run(port=8080, host='127.0.0.1', debug=True)
