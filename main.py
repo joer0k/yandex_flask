@@ -36,5 +36,21 @@ def list_prof(lst):
     return render_template('list_prof.html', list=lst, professions=professions)
 
 
+@app.route('/answer')
+@app.route('/auto_answer')
+def answer():
+    dict_answer = {
+        'title': 'Анкета',
+        'surname': 'Watny',
+        'name': 'Mark',
+        'education': 'выше среднего',
+        'profession': 'штурман марсохода',
+        'sex': 'male',
+        'motivation': 'Всегда мечтал застрять на Марсе!',
+        'ready': True
+    }
+    return render_template('auto_answer.html', dict_answer=dict_answer)
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')

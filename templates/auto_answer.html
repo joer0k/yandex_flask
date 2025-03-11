@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<meta charset="UTF-8">
+<h3>Фамилия: {{ dict_answer["surname"] }}</h3>
+<h3>Имя: {{ dict_answer["name"] }}</h3>
+<h3>Образование: {{ dict_answer["education"] }}</h3>
+<h3>Профессия: {{ dict_answer["profession"] }}</h3>
+<h3>Пол: {{ dict_answer["sex"] }}</h3>
+<h3>Мотивация: {{ dict_answer["motivation"] }}</h3>
+<h3>Готовы остаться на Марсе?: {{ dict_answer["ready"] }}</h3>
+{% endblock %}
