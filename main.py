@@ -1,4 +1,6 @@
+import json
 import os
+from random import choice
 
 from flask import Flask, render_template, redirect, request, url_for
 from flask_wtf import *
@@ -107,6 +109,15 @@ def galery():
         f.save(f'static/img/galery/{f.filename}')
         return redirect('/galery')
     return render_template('galery.html', photos=files)
+
+
+@app.route('/member')
+def member():
+    with open('templates/members.json', 'r', encoding='utf-8') as file_json:
+        data = json.load(file_json)
+    member = choice(data['crew_members'])
+    member['specialities'] = sorted(member['specialities'])
+    return render_template('member.html', member=member)
 
 
 if __name__ == '__main__':
