@@ -1,4 +1,6 @@
-from flask import Flask, render_template, redirect
+import os
+
+from flask import Flask, render_template, redirect, request, url_for
 from flask_wtf import *
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
@@ -95,6 +97,16 @@ def distribution():
 @app.route('/table/<sex>/<age>')
 def table(sex, age):
     return render_template('table.html', sex=sex, age=int(age))
+
+
+@app.route('/galery', methods=['GET', 'POST'])
+def galery():
+    files = os.listdir('static/img/galery')
+    if request.method == 'POST' and request.files['file']:
+        f = request.files['file']
+        f.save(f'static/img/galery/{f.filename}')
+        return redirect('/galery')
+    return render_template('galery.html', photos=files)
 
 
 if __name__ == '__main__':
