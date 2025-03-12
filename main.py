@@ -8,6 +8,14 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'joerok_secret_key'
 
 
+class LoginForm(FlaskForm):
+    username = StringField('id астронавта ', validators=[DataRequired()])
+    password = PasswordField('Пароль астронавта ', validators=[DataRequired()])
+    username_k = StringField('id капитана', validators=[DataRequired()])
+    password_k = PasswordField('Пароль капитана', validators=[DataRequired()])
+    submit = SubmitField('Войти')
+
+
 @app.route('/<title>')
 @app.route('/index/<title>')
 def first(title):
@@ -67,12 +75,26 @@ def success():
     return render_template('success.html')
 
 
-class LoginForm(FlaskForm):
-    username = StringField('id астронавта ', validators=[DataRequired()])
-    password = PasswordField('Пароль астронавта ', validators=[DataRequired()])
-    username_k = StringField('id капитана', validators=[DataRequired()])
-    password_k = PasswordField('Пароль капитана', validators=[DataRequired()])
-    submit = SubmitField('Войти')
+@app.route('/distribution')
+def distribution():
+    names = [
+        "Джон Смит",
+        "Эмили Джонсон",
+        "Майкл Дэвис",
+        "Сара Томпсон",
+        "Дэвид Уильямс",
+        "Джессика Браун",
+        "Ричард Уилсон",
+        "Лаура Мур",
+        "Кристофер Тейлор",
+        "Аманда Андерсон"
+    ]
+    return render_template('distribution.html', data=names)
+
+
+@app.route('/table/<sex>/<age>')
+def table(sex, age):
+    return render_template('table.html', sex=sex, age=int(age))
 
 
 if __name__ == '__main__':
