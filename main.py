@@ -116,7 +116,6 @@ def member():
     with open('templates/members.json', 'r', encoding='utf-8') as file_json:
         data = json.load(file_json)
     member = choice(data['crew_members'])
-    member['specialities'] = sorted(member['specialities'])
     return render_template('member.html', member=member)
 
 
