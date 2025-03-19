@@ -6,3 +6,8 @@ h3 {
     margin-left: 20px;
     font-weight: lighter;
 }
+
+table {
+    table-layout: fixed;
+    width: 100%;
+}
