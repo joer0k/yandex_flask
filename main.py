@@ -1,27 +1,11 @@
-import json
-import os
-from datetime import datetime
-from random import choice
-
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect
 from flask_wtf import *
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
-from data import db_session
-from data.jobs import Jobs
-
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'joerok_secret_key'
-
-
-class LoginForm(FlaskForm):
-    username = StringField('id астронавта ', validators=[DataRequired()])
-    password = PasswordField('Пароль астронавта ', validators=[DataRequired()])
-    username_k = StringField('id капитана', validators=[DataRequired()])
-    password_k = PasswordField('Пароль капитана', validators=[DataRequired()])
-    submit = SubmitField('Войти')
 
 
 @app.route('/<title>')
@@ -83,57 +67,12 @@ def success():
     return render_template('success.html')
 
 
-@app.route('/distribution')
-def distribution():
-    names = [
-        "Джон Смит",
-        "Эмили Джонсон",
-        "Майкл Дэвис",
-        "Сара Томпсон",
-        "Дэвид Уильямс",
-        "Джессика Браун",
-        "Ричард Уилсон",
-        "Лаура Мур",
-        "Кристофер Тейлор",
-        "Аманда Андерсон"
-    ]
-    return render_template('distribution.html', data=names)
-
-
-@app.route('/table/<sex>/<age>')
-def table(sex, age):
-    return render_template('table.html', sex=sex, age=int(age))
-
-
-@app.route('/galery', methods=['GET', 'POST'])
-def galery():
-    files = os.listdir('static/img/galery')
-    if request.method == 'POST' and request.files['file']:
-        f = request.files['file']
-        f.save(f'static/img/galery/{f.filename}')
-        return redirect('/galery')
-    return render_template('galery.html', photos=files)
-
-
-@app.route('/member')
-def member():
-    with open('templates/members.json', 'r', encoding='utf-8') as file_json:
-        data = json.load(file_json)
-    member = choice(data['crew_members'])
-    member['specialities'] = sorted(member['specialities'])
-    return render_template('member.html', member=member)
-
-
-@app.route('/')
-def works_log():
-    data_jobs = []
-    data_leaders = {}
-    db_session.global_init(f"db/mars.db")
-    session = db_session.create_session()
-    for job in session.query(Jobs).all():
-        data_jobs.append([job.job, job.team_leader, job.work_size, job.collaborators, job.is_finished])
-        data_leaders[job.team_leader] = f'{job.user.surname} {job.user.name}'
-    return render_template('works_log.html', data=data_jobs, data_leaders=data_leaders)
+class LoginForm(FlaskForm):
+    username = StringField('id астронавта ', validators=[DataRequired()])
+    password = PasswordField('Пароль астронавта ', validators=[DataRequired()])
+    username_k = StringField('id капитана', validators=[DataRequired()])
+    password_k = PasswordField('Пароль капитана', validators=[DataRequired()])
+    submit = SubmitField('Войти')
 
 
 if __name__ == '__main__':
