@@ -2,18 +2,15 @@
 
 {% block content %}
 <h2 align='center' style="font-weight: bold">Пейзажи марса</h2>
-<div id="carouselExample" class="carousel slide">
+<div id="carouselExample" class="carousel slide" style="width: 40%; margin: auto">
     <div class="carousel-inner" role="listbox">
-        <div class="carousel-item active">
-            <div class="d-flex justify-content-center">
-                <img src="static/img/galery/{{ photos[0] }}" alt="First slide" class="img-fluid">
-            </div>
+        <div class="carousel-item active set-pading">
+            <img src="static/img/galery/{{ photos[0] }}" alt="First slide" class="d-block w-100">
         </div>
         {% for photo in photos[1:] %}
-        <div class="carousel-item">
-            <div class="d-flex justify-content-center">
-                <img src="static/img/galery/{{ photo }}" alt="Second slide" class="img-fluid">
-            </div>
+        <div class="carousel-item set-pading">
+            <img src="static/img/galery/{{ photo }}" alt="Second slide" class="d-block w-100">
+
         </div>
         {% endfor %}
     </div>
