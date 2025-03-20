@@ -2,14 +2,16 @@ import json
 import os
 from datetime import datetime
 from random import choice
-
+from data.register_form import RegisterForm
 from flask import Flask, render_template, redirect, request
+from flask_login import LoginManager
 from flask_wtf import *
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
 from data import db_session
 from data.jobs import Jobs
+from data.users import User
 
 app = Flask(__name__)
 
@@ -136,5 +138,32 @@ def works_log():
     return render_template('works_log.html', data=data_jobs, data_leaders=data_leaders)
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        if form.password.data != form.password_repeat.data:
+            return render_template('register.html', form=form, message='Пароли не совпадают')
+        session = db_session.create_session()
+        if session.query(User).filter(User.email == form.email.data).first():
+            return render_template('register.html', form=form, message='Пользователь с такой почтой уже существует')
+        user = User(
+            surname=form.surname.data,
+            name=form.name.data,
+            age=form.age.data,
+            position=form.position.data,
+            speciality=form.speciality.data,
+            address=form.address.data,
+            email=form.email.data
+
+        )
+        user.set_password(form.password.data)
+        session.add(user)
+        session.commit()
+        return redirect('/')
+    return render_template('register.html', form=form)
+
+
 if __name__ == '__main__':
+    db_session.global_init('db/mars.db')
     app.run(port=8080, host='127.0.0.1', debug=True)
