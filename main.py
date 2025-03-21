@@ -137,7 +137,7 @@ def works_log():
         data_leaders[job.team_leader] = f'{job.user.surname} {job.user.name}'
     return render_template('works_log.html', data=data_jobs, data_leaders=data_leaders)
 
-
+#регистрация
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
