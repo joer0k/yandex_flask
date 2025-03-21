@@ -7,18 +7,7 @@ h3 {
     font-weight: lighter;
 }
 
-img {
-    width: 100px;
-    height: 100px;
-}
-
-.photo-form::before {
-    content: url('/static/img/img.png');
-    margin-right: 10px;
-    object-fit: cover;
-}
-
-.photo-form {
-    align-items: center;
-    display: flex;
+table {
+    table-layout: fixed;
+    width: 100%;
 }

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 align="center">{{ member['first_name'] }} {{ member['last_name'] }}</h2>
+<center>
+    <img src="static/img/members_png/{{ member['photo_url'] }}" style="width: 500px; height: 500px">
+</center>
+<br>
+<h5 align="center" style="font-weight: normal">{{ ', '.join(member['specialities']) }}</h5>
+{% endblock %}
