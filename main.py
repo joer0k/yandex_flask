@@ -1,14 +1,17 @@
 import json
 import os
 from datetime import datetime
+from email import message_from_bytes
 from random import choice
+
+from data.db_session import global_init
 from data.register_form import RegisterForm
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, session
 from flask_login import LoginManager
 from flask_wtf import *
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
-
+from data.departments import Department
 from data import db_session
 from data.jobs import Jobs
 from data.users import User
@@ -137,7 +140,8 @@ def works_log():
         data_leaders[job.team_leader] = f'{job.user.surname} {job.user.name}'
     return render_template('works_log.html', data=data_jobs, data_leaders=data_leaders)
 
-#регистрация
+
+# регистрация
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
